@@ -15,7 +15,7 @@
       <uri>model://asphalt_plane</uri>
       -->
     <!-- An ground plane -->
-      <uri>model://ground_plane</uri>   
+      <uri>model://europallet</uri> 
     </include>
     <include>
       <uri>model://iris</uri>
