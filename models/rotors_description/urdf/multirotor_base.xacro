@@ -150,4 +150,5 @@
       <material>Gazebo/${color}</material>
     </gazebo>
   </xacro:macro>
+
 </robot>
