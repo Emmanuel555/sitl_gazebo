@@ -33,10 +33,10 @@
 
 
   <!-- macros for gazebo plugins, sensors -->
-  <xacro:include filename="$(arg rotors_description_dir)/urdf/component_snippets.xacro" />
+  <xacro:include filename="$(arg rotors_description_dir)/urdf/component_snippets_head.xacro" />
 
   <!-- Instantiate iris "mechanics" -->
-  <xacro:include filename="$(arg rotors_description_dir)/urdf/iris.xacro" />
+  <xacro:include filename="$(arg rotors_description_dir)/urdf/iris_head.xacro" />
 
   <xacro:if value="$(arg enable_wind)">
     <xacro:wind_plugin_macro
@@ -108,11 +108,41 @@
   </xacro:mavlink_interface_macro>
   </xacro:if>
 
+
+  <xacro:vi_sensor_depth_macro
+  namespace="${namespace}" parent_link="fcu"
+  camera_suffix="structure_core" frame_rate="40.0">
+  <!--<origin xyz="0 0 -0.05" rpy="0 1.57079 0"/> UPSIDE DOWN -->
+  <origin xyz="0 0 0.09" rpy="0 0 0"/>
+  </xacro:vi_sensor_depth_macro>
+
+   <!-- Mount a camera -->
+  <xacro:camera_macro
+  namespace="${namespace}"
+  parent_link="fcu"
+  camera_suffix="non_red_iris"
+  frame_rate="30.0"
+  horizontal_fov="1.3962634"
+  image_width="800"
+  image_height="800"
+  image_format="R8G8B8"
+  min_distance="0.02"
+  max_distance="10"
+  noise_mean="0.0"
+  noise_stddev="0.007"
+  enable_visual="1"
+  >
+  <box size="0.05 0.05 0.05" />
+  <origin xyz="0 0 0.05" rpy="0 0 3.1416"/>
+  </xacro:camera_macro>-->
+
+
+
   <!-- Mount an ADIS16448 IMU. -->
   <xacro:imu_plugin_macro
     namespace="${namespace}"
     imu_suffix=""
-    parent_link="base_link"
+    parent_link="fcu"
     imu_topic="/imu"
     mass_imu_sensor="0.015"
     gyroscope_noise_density="0.00018665"
@@ -133,7 +163,7 @@
     <xacro:imu_plugin_macro
       namespace="${namespace}"
       imu_suffix="gt"
-      parent_link="base_link"
+      parent_link="fcu"
       imu_topic="ground_truth/imu"
       mass_imu_sensor="0.00001"
       gyroscope_noise_density="0.0"
@@ -153,7 +183,7 @@
     <xacro:odometry_plugin_macro
       namespace="${namespace}/ground_truth"
       odometry_sensor_suffix="gt"
-      parent_link="base_link"
+      parent_link="fcu"
       pose_topic="pose"
       pose_with_covariance_topic="pose_with_covariance"
       position_topic="position"
